@@ -1,0 +1,157 @@
+// ========================
+// Responsive Breakpoints
+// ========================
+
+@mixin mobile {
+  @media (max-width: #{$bp-tablet - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $bp-tablet) and (max-width: #{$bp-desktop - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $bp-desktop) {
+    @content;
+  }
+}
+
+@mixin wide {
+  @media (min-width: $bp-wide) {
+    @content;
+  }
+}
+
+// ========================
+// Card — neutral elevated surface, no glass blur
+// ========================
+
+@mixin card {
+  background: $bg-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-xl;
+  padding: $space-xl;
+  transition: border-color $transition-base;
+}
+
+@mixin card-hover {
+  border-color: $border-color-hover;
+}
+
+// ========================
+// Typography
+// ========================
+
+@mixin heading($size: $font-size-2xl) {
+  font-family: $font-family;
+  font-size: $size;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  line-height: 1.3;
+}
+
+// ========================
+// Layout Utilities
+// ========================
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// ========================
+// Button Base
+// ========================
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-sm;
+  padding: $space-sm $space-lg;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  font-family: $font-family;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $transition-base;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+// ========================
+// Input Base
+// ========================
+
+@mixin input-base {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  background: $bg-input;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  color: $text-primary;
+  font-family: $font-family;
+  font-size: $font-size-sm;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+  outline: none;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:hover {
+    border-color: $border-color-hover;
+  }
+
+  &:focus {
+    border-color: $border-color-focus;
+    box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.15);
+  }
+
+  &.error {
+    border-color: $danger;
+    box-shadow: 0 0 0 3px rgba(224, 82, 82, 0.12);
+  }
+}
+
+// ========================
+// Scrollbar Styling
+// ========================
+
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: $radius-full;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+}

@@ -1,0 +1,109 @@
+// ========================
+// Color Palette — Professional Dark Theme
+// ========================
+
+// Backgrounds — modern rich dark (slate/indigo)
+$bg-primary:      #0b0f19;
+$bg-secondary:    #111827;
+$bg-card:         #1f2937;
+$bg-card-hover:   #374151;
+$bg-input:        #111827;
+$bg-elevated:     #1f2937;
+
+// Text
+$text-primary:   #f9fafb;
+$text-secondary: #9ca3af;
+$text-muted:     #6b7280;
+$text-accent:    #818cf8;
+
+// Single accent — vibrant indigo
+$accent-primary:       #6366f1;
+$accent-primary-hover: #818cf8;
+$accent-subtle:        rgba(99, 102, 241, 0.15);
+$accent-subtle-hover:  rgba(99, 102, 241, 0.25);
+
+// Semantic colours
+$danger:         #ef4444;
+$danger-hover:   #f87171;
+$danger-subtle:  rgba(239, 68, 68, 0.15);
+$success:        #10b981;
+$success-hover:  #34d399;
+$warning:        #f59e0b;
+$info:           #3b82f6;
+
+// Borders — subtle slate
+$border-color:       rgba(255, 255, 255, 0.1);
+$border-color-hover: rgba(255, 255, 255, 0.2);
+$border-color-focus: rgba(99, 102, 241, 0.5);
+
+// ========================
+// Typography
+// ========================
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-size-xs:   0.75rem;
+$font-size-sm:   0.875rem;
+$font-size-base: 1rem;
+$font-size-lg:   1.125rem;
+$font-size-xl:   1.25rem;
+$font-size-2xl:  1.5rem;
+$font-size-3xl:  1.875rem;
+$font-size-4xl:  2.25rem;
+
+$font-weight-light:     300;
+$font-weight-regular:   400;
+$font-weight-medium:    500;
+$font-weight-semibold:  600;
+$font-weight-bold:      700;
+$font-weight-extrabold: 800;
+
+// ========================
+// Spacing
+// ========================
+$space-xs:  0.25rem;
+$space-sm:  0.5rem;
+$space-md:  1rem;
+$space-lg:  1.5rem;
+$space-xl:  2rem;
+$space-2xl: 3rem;
+$space-3xl: 4rem;
+
+// ========================
+// Border Radius
+// ========================
+$radius-sm:  0.3rem;
+$radius-md:  0.5rem;
+$radius-lg:  0.625rem;
+$radius-xl:  0.75rem;
+$radius-2xl: 1rem;
+$radius-full: 9999px;
+
+// ========================
+// Shadows — pure black, no colour tints
+// ========================
+$shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.4);
+$shadow-md:  0 4px 12px rgba(0, 0, 0, 0.45);
+$shadow-lg:  0 8px 32px rgba(0, 0, 0, 0.55);
+$shadow-focus: 0 0 0 3px rgba(79, 142, 247, 0.25);
+
+// ========================
+// Transitions
+// ========================
+$transition-fast: 120ms ease;
+$transition-base: 200ms ease;
+$transition-slow: 350ms ease;
+
+// ========================
+// Breakpoints
+// ========================
+$bp-mobile:  480px;
+$bp-tablet:  768px;
+$bp-desktop: 1024px;
+$bp-wide:    1280px;
+
+// ========================
+// Z-Index
+// ========================
+$z-dropdown:       100;
+$z-modal-backdrop: 200;
+$z-modal:          300;
+$z-toast:          400;
