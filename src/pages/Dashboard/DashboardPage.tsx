@@ -82,7 +82,6 @@ const DashboardPage = () => {
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearch = () => {
@@ -217,7 +216,7 @@ const DashboardPage = () => {
       {/* Table */}
       <TableCard>
         {loading ? (
-          <Loader text="Fetching addresses..." />
+          <Loader text="Loading..." />
         ) : addresses.length === 0 ? (
           <EmptyState>
             <EmptyIcon>📋</EmptyIcon>

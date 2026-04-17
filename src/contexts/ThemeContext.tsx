@@ -48,18 +48,10 @@ export const CustomThemeProvider: React.FC<CustomThemeProviderProps> = ({ childr
       setSystemIsDark(e.matches);
     };
 
-    if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener('change', handleChange);
-    } else {
-      mediaQuery.addListener(handleChange);
-    }
-
+    mediaQuery.addEventListener('change', handleChange);
+    
     return () => {
-      if (mediaQuery.removeEventListener) {
-        mediaQuery.removeEventListener('change', handleChange);
-      } else {
-        mediaQuery.removeListener(handleChange);
-      }
+      mediaQuery.removeEventListener('change', handleChange);
     };
   }, []);
 
