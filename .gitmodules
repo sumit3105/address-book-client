@@ -1,0 +1,4 @@
+[submodule "src/libs/vision-ui"]
+	path = src/libs/vision-ui
+	url = https://bitbucket.org/vayana/vision-ui.git
+	branch = feature/new-vayana-theme

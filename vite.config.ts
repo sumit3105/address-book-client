@@ -8,7 +8,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@vision-ui': path.resolve(__dirname, './src/libs/vision-ui/src/feature'),
     },
+  },
+  define: {
+    // Required by vision-ui for loading icons, fonts, and i18n assets
+    'process.env.STATIC_ASSETS_PATH': JSON.stringify('/assets/'),
   },
   css: {
     preprocessorOptions: {

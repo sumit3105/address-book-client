@@ -6,52 +6,25 @@ const fadeIn = keyframes`
 `;
 
 export const FormPageWrapper = styled.div`
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
   animation: ${fadeIn} 0.4s ease;
+  font-family: ${({ theme }) => theme.fontFamily};
 `;
 
 export const FormHeader = styled.div`
   margin-bottom: 2rem;
 `;
 
-export const FormTitle = styled.h1`
-  font-size: ${({ theme }) => theme.fonts.size2xl};
-  font-weight: ${({ theme }) => theme.fonts.weightSemibold};
-  color: ${({ theme }) => theme.colors.textPrimary};
-  margin-bottom: 0.35rem;
-  letter-spacing: -0.02em;
-`;
-
-export const FormSubtitle = styled.p`
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
-`;
-
 export const FormCard = styled.form`
-  background: ${({ theme }) => theme.colors.bgCard};
-  border: 1px solid ${({ theme }) => theme.colors.borderColor};
-  border-radius: ${({ theme }) => theme.radii.xl};
-  padding: 1.75rem;
-`;
-
-export const FormSection = styled.div`
-  margin-bottom: 2rem;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
-
-export const SectionTitle = styled.h3`
-  font-size: ${({ theme }) => theme.fonts.sizeXs};
-  font-weight: ${({ theme }) => theme.fonts.weightMedium};
-  color: ${({ theme }) => theme.colors.textMuted};
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.875rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
+  background: ${({ theme }) => theme.color.card.basic.bg.regular};
+  border: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.border.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  padding: 2rem;
+  box-shadow: 0 2px 8px ${({ theme }) => theme.color.shadow.regular};
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 `;
 
 export const FormGrid = styled.div`
@@ -72,25 +45,26 @@ export const FormActions = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid ${({ theme }) => theme.colors.borderColor};
+  padding-top: 0.5rem;
+  border-top: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.border.primary};
 `;
 
 export const BackButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
   background: none;
   border: none;
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
-  font-family: ${({ theme }) => theme.fonts.family};
+  color: ${({ theme }) => theme.color.text.primary};
+  font-size: ${({ theme }) => theme.fontSize.text};
+  font-family: ${({ theme }) => theme.fontFamily};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   cursor: pointer;
-  margin-bottom: 1rem;
-  transition: color ${({ theme }) => theme.transitions.fast};
+  padding: 0;
+  margin-bottom: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: opacity 0.15s;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.textPrimary};
+    opacity: 0.7;
   }
 `;

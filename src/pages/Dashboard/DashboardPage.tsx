@@ -3,44 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchFilteredAddresses, deleteAddress, setFilters } from '@/store/addressSlice';
 import type { Address, FilterParams } from '@/types';
-import Button from '@/components/common/Button';
-import Loader from '@/components/common/Loader';
-import Modal from '@/components/common/Modal';
+import { Table } from '@vision-ui/components/components/Table';
+import { KpiCard } from '@vision-ui/components/components/KpiCard';
+import { ConfirmBox } from '@vision-ui/components/containers/Modal/templates/ConfirmBox/ConfirmBox';
+import { ApplicationLoader } from '@vision-ui/components/components/ApplicationLoader';
+import { Button } from '@vision-ui/components/elements/Button';
+import { Icon } from '@vision-ui/components/elements/Icon';
+import { Input } from '@vision-ui/components/form/Input';
 import { useToast } from '@/components/common/Toast';
 import AddressDetailModal from '@/components/AddressDetailModal';
 import ExportModal from '@/components/ExportModal';
+import type { TableColumnProps } from '@vision-ui/components/components/Table/types/TableColumnProps';
 import {
   DashboardWrapper,
   PageHeader,
   PageTitle,
   HeaderActions,
+  StatsBar,
   FilterBar,
-  SearchWrapper,
-  SearchIcon,
-  SearchInput,
-  FilterInput,
+  FilterFieldWrapper,
+  SearchFieldWrapper,
   TableCard,
-  TableWrapper,
-  Table,
-  Thead,
-  Th,
-  Tbody,
-  Tr,
-  Td,
-  ActionButtons,
-  ActionBtn,
   PaginationWrapper,
   PaginationInfo,
   PaginationButtons,
   PageBtn,
-  EmptyState,
-  EmptyIcon,
-  EmptyTitle,
-  EmptyText,
-  StatsBar,
-  StatCard,
-  StatValue,
-  StatLabel,
 } from './Dashboard.styles';
 
 const DashboardPage = () => {
@@ -82,19 +69,12 @@ const DashboardPage = () => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSearch = () => {
-    fetchData({ page: 1 });
-  };
+  const handleSearch = () => fetchData({ page: 1 });
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') handleSearch();
-  };
-
-  const handlePageChange = (page: number) => {
-    fetchData({ page });
-  };
+  const handlePageChange = (page: number) => fetchData({ page });
 
   const handleDelete = async () => {
     if (!deleteTarget) return;
@@ -108,6 +88,99 @@ const DashboardPage = () => {
     }
   };
 
+  // ─── Table column definitions ───────────────────────────────────────────────
+  const columns: TableColumnProps<Address>[] = [
+    {
+      name: 'Name',
+      selector: 'first_name',
+      grow: true,
+      minWidth: '130px',
+      template: {
+        type: 'custom',
+        component: ({ row }) => (
+          <span>{`${row?.first_name ?? ''} ${row?.last_name ?? ''}`}</span>
+        ),
+      },
+    },
+    { name: 'Email', selector: 'email', grow: true, minWidth: '220px' },
+    {
+      name: 'Phone',
+      selector: 'phone',
+      grow: true,
+      minWidth: '120px',
+      template: {
+        type: 'custom',
+        component: ({ value }) => <span>{value || '—'}</span>,
+      },
+    },
+    {
+      name: 'City',
+      selector: 'city',
+      grow: true,
+      minWidth: '120px',
+      template: {
+        type: 'custom',
+        component: ({ value }) => <span>{value || '—'}</span>,
+      },
+    },
+    {
+      name: 'State',
+      selector: 'state',
+      grow: true,
+      minWidth: '120px',
+      template: {
+        type: 'custom',
+        component: ({ value }) => <span>{value || '—'}</span>,
+      },
+    },
+    {
+      name: 'Actions',
+      selector: 'id',
+      minWidth: '120px',
+      template: {
+        type: 'custom',
+        component: ({ row }) => {
+          if (!row) return <></>;
+          return (
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+              <div 
+                style={{ cursor: 'pointer', display: 'flex' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setViewAddress(row);
+                }}
+                title="View"
+              >
+                <Icon name="eye_circle" colorOptions={{ regular: 'default' }} link />
+              </div>
+              <div 
+                style={{ cursor: 'pointer', display: 'flex' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/address/edit/${row.id}`);
+                }}
+                title="Edit"
+              >
+                <Icon name="edit" colorOptions={{ regular: 'default' }} link />
+              </div>
+              <div 
+                style={{ cursor: 'pointer', display: 'flex' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDeleteTarget(row);
+                }}
+                title="Delete"
+              >
+                <Icon name="delete" colorOptions={{ regular: 'reject' }} link />
+              </div>
+            </div>
+          );
+        },
+      },
+    },
+  ];
+
+  // ─── Pagination buttons ──────────────────────────────────────────────────────
   const renderPaginationButtons = () => {
     const pages: (number | string)[] = [];
     const maxVisible = 5;
@@ -126,9 +199,7 @@ const DashboardPage = () => {
 
     return pages.map((page, idx) =>
       typeof page === 'string' ? (
-        <PageBtn key={`ellipsis-${idx}`} disabled>
-          …
-        </PageBtn>
+        <PageBtn key={`ellipsis-${idx}`} disabled>…</PageBtn>
       ) : (
         <PageBtn
           key={page}
@@ -147,166 +218,126 @@ const DashboardPage = () => {
       <PageHeader>
         <PageTitle>Addresses</PageTitle>
         <HeaderActions>
-          <Button variant="outline" size="sm" onClick={() => setShowExport(true)}>
-            ⬇ Export
-          </Button>
-          <Button size="sm" onClick={() => navigate('/address/new')}>
-            + New Address
-          </Button>
+          <Button
+            label="Export"
+            type="transparent"
+            action="regular"
+            size="small"
+            leftIcon="download_file"
+            onClick={() => setShowExport(true)}
+          />
+          <Button
+            label="New Address"
+            type="filled"
+            action="primary"
+            size="small"
+            leftIcon="plus_circle"
+            onClick={() => navigate('/address/new')}
+          />
         </HeaderActions>
       </PageHeader>
 
       {/* Stats */}
       <StatsBar>
-        <StatCard>
-          <StatValue>{total}</StatValue>
-          <StatLabel>Total Contacts</StatLabel>
-        </StatCard>
-        <StatCard>
-          <StatValue>{addresses.length}</StatValue>
-          <StatLabel>Showing</StatLabel>
-        </StatCard>
-        <StatCard>
-          <StatValue>{totalPages}</StatValue>
-          <StatLabel>Pages</StatLabel>
-        </StatCard>
+        <KpiCard type="primary" icon="list" title="Total Contacts" value={total} />
+        <KpiCard type="success" icon="tick_circle" title="Showing" value={addresses.length} />
+        <KpiCard type="pending" icon="filled_circle_page" title="Pages" value={totalPages} />
       </StatsBar>
 
       {/* Filters */}
       <FilterBar>
-        <SearchWrapper>
-          <SearchIcon>🔍</SearchIcon>
-          <SearchInput
-            id="search-input"
+        <SearchFieldWrapper>
+          <Input
+            name="search"
+            label=""
             placeholder="Search contacts..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={handleKeyDown}
+            onChange={setSearchTerm}
+            leftIcon="hmr_search"
           />
-        </SearchWrapper>
-        <FilterInput
-          placeholder="City"
-          value={cityFilter}
-          onChange={(e) => setCityFilter(e.target.value)}
-          onKeyDown={handleKeyDown}
+        </SearchFieldWrapper>
+        <FilterFieldWrapper>
+          <Input
+            name="city"
+            label=""
+            placeholder="City"
+            value={cityFilter}
+            onChange={setCityFilter}
+          />
+        </FilterFieldWrapper>
+        <FilterFieldWrapper>
+          <Input
+            name="state"
+            label=""
+            placeholder="State"
+            value={stateFilter}
+            onChange={setStateFilter}
+          />
+        </FilterFieldWrapper>
+        <FilterFieldWrapper>
+          <Input
+            name="country"
+            label=""
+            placeholder="Country"
+            value={countryFilter}
+            onChange={setCountryFilter}
+          />
+        </FilterFieldWrapper>
+        <FilterFieldWrapper>
+          <Input
+            name="pincode"
+            label=""
+            placeholder="Pincode"
+            value={pincodeFilter}
+            onChange={setPincodeFilter}
+          />
+        </FilterFieldWrapper>
+        <Button
+          label="Filter"
+          type="filled"
+          action="primary"
+          size="small"
+          onClick={handleSearch}
         />
-        <FilterInput
-          placeholder="State"
-          value={stateFilter}
-          onChange={(e) => setStateFilter(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <FilterInput
-          placeholder="Country"
-          value={countryFilter}
-          onChange={(e) => setCountryFilter(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <FilterInput
-          placeholder="Pincode"
-          value={pincodeFilter}
-          onChange={(e) => setPincodeFilter(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <Button variant="secondary" size="sm" onClick={handleSearch}>
-          Filter
-        </Button>
       </FilterBar>
 
       {/* Table */}
       <TableCard>
-        {loading ? (
-          <Loader text="Loading..." />
-        ) : addresses.length === 0 ? (
-          <EmptyState>
-            <EmptyIcon>📋</EmptyIcon>
-            <EmptyTitle>No addresses found</EmptyTitle>
-            <EmptyText>
-              {searchTerm || cityFilter || stateFilter || countryFilter || pincodeFilter
-                ? 'Try adjusting your filters'
-                : 'Start by adding your first address'}
-            </EmptyText>
-            <Button size="sm" onClick={() => navigate('/address/new')}>
-              + Add Address
-            </Button>
-          </EmptyState>
-        ) : (
-          <>
-            <TableWrapper>
-              <Table>
-                <Thead>
-                  <tr>
-                    <Th>Name</Th>
-                    <Th>Email</Th>
-                    <Th>Phone</Th>
-                    <Th>City</Th>
-                    <Th>State</Th>
-                    <Th>Actions</Th>
-                  </tr>
-                </Thead>
-                <Tbody>
-                  {addresses.map((address) => (
-                    <Tr key={address.id}>
-                      <Td>
-                        {address.first_name} {address.last_name}
-                      </Td>
-                      <Td>{address.email}</Td>
-                      <Td>{address.phone || '—'}</Td>
-                      <Td>{address.city || '—'}</Td>
-                      <Td>{address.state || '—'}</Td>
-                      <Td>
-                        <ActionButtons>
-                          <ActionBtn
-                            $variant="view"
-                            title="View details"
-                            onClick={() => setViewAddress(address)}
-                          >
-                            👁
-                          </ActionBtn>
-                          <ActionBtn
-                            $variant="edit"
-                            title="Edit"
-                            onClick={() => navigate(`/address/edit/${address.id}`)}
-                          >
-                            ✏️
-                          </ActionBtn>
-                          <ActionBtn
-                            $variant="delete"
-                            title="Delete"
-                            onClick={() => setDeleteTarget(address)}
-                          >
-                            🗑
-                          </ActionBtn>
-                        </ActionButtons>
-                      </Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TableWrapper>
+        <Table<Address>
+          columns={columns}
+          data={addresses}
+          keyField="id"
+          loadingState={loading ? 'loading' : 'loaded'}
+          noDataMessage={
+            searchTerm || cityFilter || stateFilter || countryFilter || pincodeFilter
+              ? 'No results — try adjusting your filters'
+              : 'No addresses found — add your first contact!'
+          }
+          fixedHeader
+        />
 
-            {/* Pagination */}
-            <PaginationWrapper>
-              <PaginationInfo>
-                Page {currentPage} of {totalPages} ({total} records)
-              </PaginationInfo>
-              <PaginationButtons>
-                <PageBtn
-                  disabled={currentPage <= 1}
-                  onClick={() => handlePageChange(currentPage - 1)}
-                >
-                  ‹ Prev
-                </PageBtn>
-                {renderPaginationButtons()}
-                <PageBtn
-                  disabled={currentPage >= totalPages}
-                  onClick={() => handlePageChange(currentPage + 1)}
-                >
-                  Next ›
-                </PageBtn>
-              </PaginationButtons>
-            </PaginationWrapper>
-          </>
+        {/* Page-based Pagination */}
+        {!loading && addresses.length > 0 && (
+          <PaginationWrapper>
+            <PaginationInfo>
+              Page {currentPage} of {totalPages} ({total} records)
+            </PaginationInfo>
+            <PaginationButtons>
+              <PageBtn
+                disabled={currentPage <= 1}
+                onClick={() => handlePageChange(currentPage - 1)}
+              >
+                ‹ Prev
+              </PageBtn>
+              {renderPaginationButtons()}
+              <PageBtn
+                disabled={currentPage >= totalPages}
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                Next ›
+              </PageBtn>
+            </PaginationButtons>
+          </PaginationWrapper>
         )}
       </TableCard>
 
@@ -318,30 +349,20 @@ const DashboardPage = () => {
         />
       )}
 
-      {/* Delete Confirmation Modal */}
-      <Modal
-        isOpen={!!deleteTarget}
-        onClose={() => setDeleteTarget(null)}
-        title="Delete Address"
-        footer={
-          <>
-            <Button variant="ghost" size="sm" onClick={() => setDeleteTarget(null)}>
-              Cancel
-            </Button>
-            <Button variant="danger" size="sm" onClick={handleDelete}>
-              Delete
-            </Button>
-          </>
-        }
-      >
-        <p>
-          Are you sure you want to delete the address for{' '}
-          <strong>
-            {deleteTarget?.first_name} {deleteTarget?.last_name}
-          </strong>
-          ? This action cannot be undone.
-        </p>
-      </Modal>
+      {/* Delete Confirmation */}
+      <ConfirmBox
+        open={!!deleteTarget}
+        header="Delete Address"
+        message={`Are you sure you want to delete the address for ${deleteTarget?.first_name ?? ''} ${deleteTarget?.last_name ?? ''}? This action cannot be undone.`}
+        confirmButtonLabel="Delete"
+        cancelButtonLabel="Cancel"
+        onConfirmButtonClick={handleDelete}
+        onCancelButtonClick={() => setDeleteTarget(null)}
+        onClickCross={() => setDeleteTarget(null)}
+      />
+
+      {/* Loading Overlay */}
+      <ApplicationLoader text="Loading..." show={loading} />
 
       {/* Export Modal */}
       <ExportModal isOpen={showExport} onClose={() => setShowExport(false)} />

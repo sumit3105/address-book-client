@@ -1,78 +1,44 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { exportAddresses } from '@/store/addressSlice';
 import { validateEmail } from '@/utils/validation';
 import type { ExportPayload } from '@/types';
-import Modal from '@/components/common/Modal';
-import Input from '@/components/common/Input';
-import Button from '@/components/common/Button';
 import { useToast } from '@/components/common/Toast';
+
+import { Modal } from '@vision-ui/components/containers/Modal';
+import { Button } from '@vision-ui/components/elements/Button';
+import { Title } from '@vision-ui/components/elements/typography/Title';
+import { SubText } from '@vision-ui/components/elements/typography/SubText';
+import { Divider } from '@vision-ui/components/elements/Divider';
+import { Input } from '@vision-ui/components/form/Input';
+import { CheckboxGroup } from '@vision-ui/components/form/CheckboxGroup';
 
 // ========================
 // Styled components
 // ========================
 
-const FieldCheckboxGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-`;
-
-const CheckboxLabel = styled.label<{ $checked?: boolean }>`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 0.85rem;
-  background: ${({ $checked, theme }) =>
-    $checked ? theme.colors.accentSubtle : theme.colors.bgInput};
-  border: 1px solid
-    ${({ $checked, theme }) =>
-      $checked ? theme.colors.accentPrimary : theme.colors.borderColor};
-  border-radius: ${({ theme }) => theme.radii.md};
-  cursor: pointer;
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
-  color: ${({ $checked, theme }) =>
-    $checked ? theme.colors.textPrimary : theme.colors.textSecondary};
-  transition: all ${({ theme }) => theme.transitions.fast};
-
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.accentPrimary};
-  }
-`;
-
-const Checkbox = styled.input`
-  accent-color: ${({ theme }) => theme.colors.accentPrimary};
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-`;
-
-const Description = styled.p`
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
-  color: ${({ theme }) => theme.colors.textMuted};
-  margin-bottom: 1.25rem;
-  line-height: 1.6;
+const ModalContent = styled.div`
+  padding: 1.5rem;
+  font-family: ${({ theme }) => theme.fontFamily};
 `;
 
 const SectionLabel = styled.div`
-  font-size: ${({ theme }) => theme.fonts.sizeXs};
-  font-weight: ${({ theme }) => theme.fonts.weightSemibold};
-  color: ${({ theme }) => theme.colors.textAccent};
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: ${({ theme }) => theme.fontSize.title};
+  font-weight: ${({ theme }) => theme.fontWeight.boldX};
+  color: ${({ theme }) => theme.color.text.secondary};
   margin-bottom: 0.75rem;
+  margin-top: 1.5rem;
 `;
 
-const ErrorText = styled.span`
-  font-size: ${({ theme }) => theme.fonts.sizeXs};
-  color: ${({ theme }) => theme.colors.danger};
-  display: block;
-  margin-bottom: 1rem;
+const ModalActions = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.border.primary};
 `;
-
 
 // ========================
 // Available fields
@@ -90,6 +56,8 @@ const EXPORT_FIELDS = [
   { key: 'country', label: 'Country' },
   { key: 'pincode', label: 'Pincode' },
 ];
+
+const CHECKBOX_OPTIONS = EXPORT_FIELDS.map(f => ({ label: f.label, value: f.key }));
 
 // ========================
 // Component
@@ -109,17 +77,9 @@ const ExportModal = ({ isOpen, onClose }: ExportModalProps) => {
   const [fieldError, setFieldError] = useState('');
 
   const {
-    register,
+    control,
     handleSubmit,
-    formState: { errors },
   } = useForm<{ email: string }>();
-
-  const toggleField = (key: string) => {
-    setFieldError('');
-    setSelectedFields((prev) =>
-      prev.includes(key) ? prev.filter((f) => f !== key) : [...prev, key]
-    );
-  };
 
   const onSubmit = async (data: { email: string }) => {
     if (selectedFields.length === 0) {
@@ -141,45 +101,67 @@ const ExportModal = ({ isOpen, onClose }: ExportModalProps) => {
     }
   };
 
+  const handleCheckboxChange = (val: string[]) => {
+    setFieldError('');
+    setSelectedFields(val);
+  };
+
+  if (!isOpen) return null;
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Export Addresses" maxWidth="520px">
-      <Description>
-        Select the fields you want to export and provide an email address to receive the CSV download link.
-      </Description>
+    <Modal open showBackdrop contentSpacing="none">
+      <ModalContent>
+        <Title>Export Addresses</Title>
+        <SubText>Select the fields you want to export and provide an email address to receive the CSV download link.</SubText>
+        
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <SectionLabel>Select fields</SectionLabel>
+          <CheckboxGroup
+            name="export-fields"
+            options={CHECKBOX_OPTIONS}
+            value={selectedFields}
+            onChange={handleCheckboxChange}
+            columns={2}
+            errorMessage={fieldError}
+          />
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <SectionLabel>Select fields</SectionLabel>
-        <FieldCheckboxGrid>
-          {EXPORT_FIELDS.map(({ key, label }) => (
-            <CheckboxLabel key={key} $checked={selectedFields.includes(key)}>
-              <Checkbox
-                type="checkbox"
-                checked={selectedFields.includes(key)}
-                onChange={() => toggleField(key)}
+          <SectionLabel>Delivery email</SectionLabel>
+          <Controller
+            name="email"
+            control={control}
+            defaultValue=""
+            rules={{ validate: validateEmail, required: "Email is required" }}
+            render={({ field, fieldState }) => (
+              <Input
+                name={field.name}
+                label=""
+                placeholder="your@email.com"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onChange}
+                errorMessage={fieldState.error?.message}
+                required
               />
-              {label}
-            </CheckboxLabel>
-          ))}
-        </FieldCheckboxGrid>
-        {fieldError && <ErrorText>{fieldError}</ErrorText>}
+            )}
+          />
+        </form>
+      </ModalContent>
 
-        <SectionLabel>Delivery email</SectionLabel>
-        <Input
-          id="export-email"
-          placeholder="your@email.com"
-          error={errors.email?.message}
-          {...register('email', { validate: validateEmail })}
+      <ModalActions>
+        <Button
+          label="Cancel"
+          type="transparent"
+          action="regular"
+          onClick={onClose}
         />
-
-        <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
-          <Button variant="ghost" type="button" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" isLoading={exportLoading}>
-            Start Export
-          </Button>
-        </div>
-      </form>
+        <Button
+          label={exportLoading ? 'Exporting...' : 'Start Export'}
+          type="filled"
+          action="primary"
+          loading={exportLoading}
+          onClick={handleSubmit(onSubmit)}
+        />
+      </ModalActions>
     </Modal>
   );
 };

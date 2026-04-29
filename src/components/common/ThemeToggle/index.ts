@@ -1,1 +1,2 @@
-export { default } from './ThemeToggle';
+// ThemeToggle removed — app uses fixed Vayana theme
+export {};

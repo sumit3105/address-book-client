@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
@@ -15,18 +15,18 @@ import {
   validateRequired,
 } from '@/utils/validation';
 import type { CreateAddressPayload } from '@/types';
-import Input from '@/components/common/Input';
-import Button from '@/components/common/Button';
-import Loader from '@/components/common/Loader';
+import { Input } from '@vision-ui/components/form/Input';
+import { Button } from '@vision-ui/components/elements/Button';
+import { CollapsiblePanel } from '@vision-ui/components/containers/CollapsiblePanel';
+import { SectionHeader } from '@vision-ui/components/elements/typography/SectionHeader';
+import { PageHeader } from '@vision-ui/components/elements/typography/PageHeader';
+import { SubText } from '@vision-ui/components/elements/typography/SubText';
+import { ApplicationLoader } from '@vision-ui/components/components/ApplicationLoader';
 import { useToast } from '@/components/common/Toast';
 import {
   FormPageWrapper,
   FormHeader,
-  FormTitle,
-  FormSubtitle,
   FormCard,
-  FormSection,
-  SectionTitle,
   FormGrid,
   FormFullWidth,
   FormActions,
@@ -41,14 +41,8 @@ const AddressFormPage = () => {
   const { showToast } = useToast();
   const { selectedAddress, loading, detailLoading } = useAppSelector((state) => state.address);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isDirty },
-  } = useForm<CreateAddressPayload>();
+  const { control, handleSubmit, reset, formState: { isDirty } } = useForm<CreateAddressPayload>();
 
-  // Fetch address data in edit mode
   useEffect(() => {
     if (isEditMode && id) {
       dispatch(fetchAddressById(id));
@@ -58,7 +52,6 @@ const AddressFormPage = () => {
     };
   }, [dispatch, id, isEditMode]);
 
-  // Pre-fill form when data arrives
   useEffect(() => {
     if (isEditMode && selectedAddress) {
       reset({
@@ -97,7 +90,7 @@ const AddressFormPage = () => {
   };
 
   if (isEditMode && detailLoading) {
-    return <Loader text="Loading address..." />;
+    return <ApplicationLoader text="Loading address..." show={true} />;
   }
 
   return (
@@ -105,118 +98,226 @@ const AddressFormPage = () => {
       <BackButton onClick={() => navigate(-1)}>← Back</BackButton>
 
       <FormHeader>
-        <FormTitle>
+        <PageHeader type="primary">
           {isEditMode ? 'Edit Address' : 'New Address'}
-        </FormTitle>
-        <FormSubtitle>
+        </PageHeader>
+        <SubText>
           {isEditMode
             ? 'Update the details below and save your changes'
             : 'Fill in the details to add a new contact'}
-        </FormSubtitle>
+        </SubText>
       </FormHeader>
 
       <FormCard onSubmit={handleSubmit(onSubmit)}>
-        {/* Personal Info */}
-        <FormSection>
-          <SectionTitle>Personal Information</SectionTitle>
-          <FormGrid>
-            <Input
-              id="first-name"
-              label="First Name *"
-              placeholder="John"
-              error={errors.first_name?.message}
-              {...register('first_name', { validate: validateRequired('First name') })}
-            />
-            <Input
-              id="last-name"
-              label="Last Name"
-              placeholder="Doe"
-              error={errors.last_name?.message}
-              {...register('last_name')}
-            />
-            <Input
-              id="email"
-              label="Email *"
-              type="email"
-              placeholder="john@example.com"
-              error={errors.email?.message}
-              {...register('email', { validate: validateEmail })}
-            />
-            <Input
-              id="phone"
-              label="Phone"
-              placeholder="9876543210"
-              error={errors.phone?.message}
-              {...register('phone', { validate: validatePhone })}
-            />
-          </FormGrid>
-        </FormSection>
 
-        {/* Address */}
-        <FormSection>
-          <SectionTitle>Address Details</SectionTitle>
-          <FormGrid>
-            <FormFullWidth>
-              <Input
-                id="address-line1"
-                label="Address Line 1 *"
-                placeholder="123 Main Street"
-                error={errors.address_line1?.message}
-                {...register('address_line1', { validate: validateRequired('Address line 1') })}
+        {/* Personal Information */}
+        <CollapsiblePanel
+          content={
+            <FormGrid>
+              <Controller
+                name="first_name"
+                control={control}
+                defaultValue=""
+                rules={{ validate: validateRequired('First name') }}
+                render={({ field, fieldState }) => (
+                  <Input
+                    name={field.name}
+                    label="First Name"
+                    placeholder="John"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onChange}
+                    errorMessage={fieldState.error?.message}
+                    required
+                  />
+                )}
               />
-            </FormFullWidth>
-            <FormFullWidth>
-              <Input
-                id="address-line2"
-                label="Address Line 2"
-                placeholder="Apartment, suite, unit"
-                error={errors.address_line2?.message}
-                {...register('address_line2')}
+              <Controller
+                name="last_name"
+                control={control}
+                defaultValue=""
+                render={({ field, fieldState }) => (
+                  <Input
+                    name={field.name}
+                    label="Last Name"
+                    placeholder="Doe"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onChange}
+                    errorMessage={fieldState.error?.message}
+                  />
+                )}
               />
-            </FormFullWidth>
-            <Input
-              id="city"
-              label="City"
-              placeholder="Mumbai"
-              error={errors.city?.message}
-              {...register('city')}
-            />
-            <Input
-              id="state"
-              label="State"
-              placeholder="Maharashtra"
-              error={errors.state?.message}
-              {...register('state')}
-            />
-            <Input
-              id="country"
-              label="Country"
-              placeholder="India"
-              error={errors.country?.message}
-              {...register('country')}
-            />
-            <Input
-              id="pincode"
-              label="Pincode"
-              placeholder="400001"
-              error={errors.pincode?.message}
-              {...register('pincode', { validate: validatePincode })}
-            />
-          </FormGrid>
-        </FormSection>
+              <Controller
+                name="email"
+                control={control}
+                defaultValue=""
+                rules={{ validate: validateEmail }}
+                render={({ field, fieldState }) => (
+                  <Input
+                    name={field.name}
+                    label="Email"
+                    placeholder="john@example.com"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onChange}
+                    errorMessage={fieldState.error?.message}
+                    required
+                  />
+                )}
+              />
+              <Controller
+                name="phone"
+                control={control}
+                defaultValue=""
+                rules={{ validate: validatePhone }}
+                render={({ field, fieldState }) => (
+                  <Input
+                    name={field.name}
+                    label="Phone"
+                    placeholder="9876543210"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onChange}
+                    errorMessage={fieldState.error?.message}
+                  />
+                )}
+              />
+            </FormGrid>
+          }
+        >
+          <SectionHeader>Personal Information</SectionHeader>
+        </CollapsiblePanel>
+
+        {/* Address Details */}
+        <CollapsiblePanel
+          content={
+            <FormGrid>
+              <FormFullWidth>
+                <Controller
+                  name="address_line1"
+                  control={control}
+                  defaultValue=""
+                  rules={{ validate: validateRequired('Address line 1') }}
+                  render={({ field, fieldState }) => (
+                    <Input
+                      name={field.name}
+                      label="Address Line 1"
+                      placeholder="123 Main Street"
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onChange}
+                      errorMessage={fieldState.error?.message}
+                      required
+                    />
+                  )}
+                />
+              </FormFullWidth>
+              <FormFullWidth>
+                <Controller
+                  name="address_line2"
+                  control={control}
+                  defaultValue=""
+                  render={({ field, fieldState }) => (
+                    <Input
+                      name={field.name}
+                      label="Address Line 2"
+                      placeholder="Apartment, suite, unit"
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onChange}
+                      errorMessage={fieldState.error?.message}
+                    />
+                  )}
+                />
+              </FormFullWidth>
+              <Controller
+                name="city"
+                control={control}
+                defaultValue=""
+                render={({ field, fieldState }) => (
+                  <Input
+                    name={field.name}
+                    label="City"
+                    placeholder="Mumbai"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onChange}
+                    errorMessage={fieldState.error?.message}
+                  />
+                )}
+              />
+              <Controller
+                name="state"
+                control={control}
+                defaultValue=""
+                render={({ field, fieldState }) => (
+                  <Input
+                    name={field.name}
+                    label="State"
+                    placeholder="Maharashtra"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onChange}
+                    errorMessage={fieldState.error?.message}
+                  />
+                )}
+              />
+              <Controller
+                name="country"
+                control={control}
+                defaultValue=""
+                render={({ field, fieldState }) => (
+                  <Input
+                    name={field.name}
+                    label="Country"
+                    placeholder="India"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onChange}
+                    errorMessage={fieldState.error?.message}
+                  />
+                )}
+              />
+              <Controller
+                name="pincode"
+                control={control}
+                defaultValue=""
+                rules={{ validate: validatePincode }}
+                render={({ field, fieldState }) => (
+                  <Input
+                    name={field.name}
+                    label="Pincode"
+                    placeholder="400001"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onChange}
+                    errorMessage={fieldState.error?.message}
+                  />
+                )}
+              />
+            </FormGrid>
+          }
+        >
+          <SectionHeader>Address Details</SectionHeader>
+        </CollapsiblePanel>
 
         {/* Actions */}
         <FormActions>
-          <Button variant="ghost" type="button" onClick={() => navigate(-1)}>
-            Cancel
-          </Button>
           <Button
-            type="submit"
-            isLoading={loading}
+            label="Cancel"
+            type="transparent"
+            action="regular"
+            onClick={() => navigate(-1)}
+          />
+          <Button
+            label={isEditMode ? 'Save Changes' : 'Create Address'}
+            type="filled"
+            action="primary"
+            loading={loading}
             disabled={isEditMode && !isDirty}
-          >
-            {isEditMode ? 'Save Changes' : 'Create Address'}
-          </Button>
+            onClick={handleSubmit(onSubmit)}
+          />
         </FormActions>
       </FormCard>
     </FormPageWrapper>

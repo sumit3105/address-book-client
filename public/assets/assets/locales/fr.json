@@ -1,0 +1,80 @@
+{
+  "common.key1": "Bienvenue à React et react-i18next",
+  "common.key2": "Bienvenue à React",
+  "common.key3": "Je m'appelle {{ name }}",
+  "common.key4": "La date d'aujourd'hui est {{ currentDate, DATE_REGULAR }}",
+
+  "common.component.header.username": "Salut, {{userName}}",
+  "common.component.header.goback": "Retourner",
+
+  "common.component.commentbox.comments.header": "Commentaires",
+  "common.component.commentbox.comments.specification": "{{ count }} commentaires",
+  "common.component.commentbox.comments.button.post": "Poste",
+
+  "components.footer.policies": "politiques du programme",
+  "components.footer.copyright": "© 2022 Vayana Network Pvt. Ltd.",
+  "components.footer.platform.date": "date de la plate-forme: {{ platformDate, DATE_REGULAR }}",
+  "components.footer.lastLogin.date": "Date de la dernière connexion: {{ lastLoginDate, DATE_REGULAR }}",
+
+  "stories.i18n.utils.formats.date.regular": "{{ currentDateTime, DATE_REGULAR }}",
+  "stories.i18n.utils.formats.date.alt": "{{ currentDateTime, DATE_ALT }}",
+  "stories.i18n.utils.formats.date.short": "{{ currentDateTime, DATE_SHORT }}",
+  "stories.i18n.utils.formats.time.regular": "{{ currentDateTime, TIME_REGULAR }}",
+  "stories.i18n.utils.formats.datetime.full": "{{ currentDateTime, DATETIME_FULL }}",
+  "stories.i18n.utils.formats.datetime.full.alt": "{{ currentDateTime, DATETIME_FULL_ALT }}",
+  "stories.i18n.utils.formats.time.alt": "{{ currentDateTime, TIME_ALT }}",
+
+  "common.component.progressbar.button.cancel": "ANNULER",
+  "common.component.progressbar.content.size": "{{ completedFileSize }} de {{ totalFileSize }}",
+  "common.component.progressbar.content.percentage": "{{ percentage }}% uploaded",
+
+  "scf.common.file.status.authorized": "Autorisé",
+  "scf.common.file.status.pending": "En attente",
+  "scf.common.file.status.rejected": "Rejetée",
+  "scf.common.programcard.action.addfile": "Ajouter le fichier",
+  "scf.common.programcard.action.files": "Des dossiers",
+  "scf.common.programcard.action.transactions": "Transactions",
+  "scf.common.programcard.action.reports": "Rapports",
+  "scf.common.commentcard.time.justnow": "Juste maintenant",
+
+  "common.component.attachmentcard.title.default": "Nom de la pièce jointe",
+  "common.component.attachmentcard.title.airbill": "lettre de transport aérien",
+  "common.component.attachmentcard.title.transdoc": "Document de transport combiné",
+  "common.component.attachmentcard.title.inspolicy": "Police d'assurance (certificat)",
+  "common.component.attachmentcard.title.inspectioncertificate": "Certificat d'inspection",
+  "common.component.attachmentcard.title.origincertificate": "Certificat d'origine",
+  "common.component.attachmentcard.title.exchangebill": "Brouillon (lettre de change)",
+  "common.component.attachmentcard.title.packaginglist": "Liste de colisage/spécification",
+  "common.component.attachmentcard.title.inv": "Facture d'achat",
+  "common.component.attachmentcard.title.landingbill": "Bill Of Landing",
+  "common.component.attachmentcard.link.viewdocument": "Afficher le document",
+  "common.component.attachmentcard.link.uploaddocument": "Télécharger un document",
+
+  "common.component.fileuploader.label.draganddrop": "Glisser-déposer ou",
+  "common.component.fileuploader.label.link": "Parcourir pour ajouter un fichier",
+  "common.component.fileuploader.error.singlefile": "Téléchargez un seul fichier à la fois.",
+  "common.component.fileuploader.error.minsize": "La taille de fichier minimale autorisée est {{ minSize }}",
+  "common.component.fileuploader.error.maxsize": "La taille de fichier maximale autorisée est {{ maxSize }}",
+  "common.component.fileuploader.error.filetypes": "Les types de fichiers autorisés sont {{ fileTypes }}",
+
+  "common.component.timeline.status.approved": "Approuvée",
+  "common.component.timeline.status.created": "Établie",
+  "common.component.timeline.status.delete": "Supprimé",
+  "common.component.timeline.status.expired": "Expiré",
+  "common.component.timeline.status.expired_alt": "Expiré",
+  "common.component.timeline.status.pending": "Partiellement accepté",
+  "common.component.timeline.status.reject": "Rejetée",
+
+  "common.component.servicecard.title.receivables": "Mes créances",
+  "common.component.servicecard.title.invoices": "Générer et envoyer des factures",
+  "common.component.servicecard.title.ewaybill": "Factures E-Way pour la livraison des marchandises",
+
+  "common.component.composites.filter.button.clearall.label": "Effacer tout le filtres",
+  "common.component.composites.filter.advance.header": "Sélection avancée",
+
+  "common.component.form.dropdown.defaultnooptiontext": "Aucune option disponible",
+
+  "common.component.form.otpbase.link.hintext": "Vous n'avez pas obtenu l'OTP?",
+  "common.component.form.otpbase.link.label": "Renvoyer OTP",
+  "stories.i18n.utils.formats.number": "{{value, NUMBER}}"
+}

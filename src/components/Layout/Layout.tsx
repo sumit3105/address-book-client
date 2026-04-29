@@ -1,45 +1,43 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { logout } from '@/store/authSlice';
-import Button from '@/components/common/Button';
-import ThemeToggle from '@/components/common/ThemeToggle';
-import {
-  LayoutWrapper,
-  Navbar,
-  Logo,
-  LogoIcon,
-  LogoText,
-  NavActions,
-  MainContent,
-} from './Layout.styles';
+import { ApplicationHeader } from '@vision-ui/components/components/ApplicationHeader';
+import { Button } from '@vision-ui/components/elements/Button';
+import { MainContent } from './Layout.styles';
 
 const Layout = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
     navigate('/login');
   };
 
+  const userName = user?.email?.split('@')[0] || 'User';
+
   return (
-    <LayoutWrapper>
-      <Navbar>
-        <Logo onClick={() => navigate('/')}>
-          <LogoIcon>AB</LogoIcon>
-          <LogoText>AddressBook</LogoText>
-        </Logo>
-        <NavActions>
-          <ThemeToggle />
-          <Button variant="ghost" size="sm" onClick={handleLogout}>
-            Sign Out
-          </Button>
-        </NavActions>
-      </Navbar>
+    <>
+      <ApplicationHeader
+        orgName="AddressBook"
+        programName="Contacts"
+        userName={userName}
+        hideNotification={true}
+        actionsList={() => (
+          <Button
+            label="Sign Out"
+            type="transparent"
+            action="regular"
+            size="small"
+            onClick={handleLogout}
+          />
+        )}
+      />
       <MainContent>
         <Outlet />
       </MainContent>
-    </LayoutWrapper>
+    </>
   );
 };
 

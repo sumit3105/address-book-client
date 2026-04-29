@@ -1,12 +1,13 @@
 import { useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { registerUser, clearAuthError } from '@/store/authSlice';
 import { validateEmail, validatePassword, getPasswordStrength } from '@/utils/validation';
 import type { RegisterPayload } from '@/types';
-import Input from '@/components/common/Input';
-import Button from '@/components/common/Button';
+import { Input } from '@vision-ui/components/form/Input';
+import { Password } from '@vision-ui/components/form/Password';
+import { Button } from '@vision-ui/components/elements/Button';
 import { useToast } from '@/components/common/Toast';
 import {
   AuthPageWrapper,
@@ -40,12 +41,7 @@ const RegisterPage = () => {
   const { showToast } = useToast();
   const { loading, error, isAuthenticated } = useAppSelector((state) => state.auth);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<RegisterFormData>();
+  const { control, handleSubmit, watch } = useForm<RegisterFormData>();
 
   const watchedPassword = watch('password', '');
 
@@ -85,22 +81,42 @@ const RegisterPage = () => {
         {error && <AuthError>{error}</AuthError>}
 
         <AuthForm onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            id="register-email"
-            label="Email"
-            type="email"
-            placeholder="you@example.com"
-            error={errors.email?.message}
-            {...register('email', { validate: validateEmail })}
+          <Controller
+            name="email"
+            control={control}
+            defaultValue=""
+            rules={{ validate: validateEmail }}
+            render={({ field, fieldState }) => (
+              <Input
+                name={field.name}
+                label="Email"
+                placeholder="you@example.com"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onChange}
+                errorMessage={fieldState.error?.message}
+                required
+              />
+            )}
           />
 
-          <Input
-            id="register-password"
-            label="Password"
-            type="password"
-            placeholder="Create a strong password"
-            error={errors.password?.message}
-            {...register('password', { validate: validatePassword })}
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            rules={{ validate: validatePassword }}
+            render={({ field, fieldState }) => (
+              <Password
+                name={field.name}
+                label="Password"
+                placeholder="Create a strong password"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onChange}
+                errorMessage={fieldState.error?.message}
+                required
+              />
+            )}
           />
 
           {watchedPassword && (
@@ -115,27 +131,43 @@ const RegisterPage = () => {
                 ))}
               </PasswordStrengthBar>
               <StrengthLabel $color={strengthColors[passwordStrength.strength]}>
-                {passwordStrength.strength.charAt(0).toUpperCase() + passwordStrength.strength.slice(1)}
+                {passwordStrength.strength.charAt(0).toUpperCase() +
+                  passwordStrength.strength.slice(1)}
               </StrengthLabel>
             </>
           )}
 
-          <Input
-            id="register-confirm-password"
-            label="Confirm Password"
-            type="password"
-            placeholder="Re-enter your password"
-            error={errors.confirmPassword?.message}
-            {...register('confirmPassword', {
+          <Controller
+            name="confirmPassword"
+            control={control}
+            defaultValue=""
+            rules={{
               required: 'Please confirm your password',
               validate: (value) =>
                 value === watchedPassword || 'Passwords do not match',
-            })}
+            }}
+            render={({ field, fieldState }) => (
+              <Password
+                name={field.name}
+                label="Confirm Password"
+                placeholder="Re-enter your password"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onChange}
+                errorMessage={fieldState.error?.message}
+                required
+              />
+            )}
           />
 
-          <Button type="submit" fullWidth isLoading={loading}>
-            Create Account
-          </Button>
+          <Button
+            label={loading ? 'Creating account…' : 'Create Account'}
+            type="filled"
+            action="primary"
+            loading={loading}
+            block
+            onClick={handleSubmit(onSubmit)}
+          />
         </AuthForm>
 
         <AuthLink>
