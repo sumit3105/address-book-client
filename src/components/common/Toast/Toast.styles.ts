@@ -39,11 +39,11 @@ export const ToastItem = styled.div<ToastItemProps>`
   align-items: flex-start;
   gap: 0.75rem;
   padding: 1rem 1.25rem;
-  background: ${({ theme }) => theme.colors.bgCard};
+  background: ${({ theme }) => theme.color.card.basic.bg.regular};
   border: 1px solid ${({ $type }) => colorMap[$type].border};
   border-left: 3px solid ${({ $type }) => colorMap[$type].border};
-  border-radius: ${({ theme }) => theme.radii.lg};
-  box-shadow: ${({ theme }) => theme.shadows.md};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  box-shadow: ${({ theme }) => theme.color.shadow.regular};
   animation: ${({ $isExiting }) =>
     $isExiting
       ? css`
@@ -78,8 +78,8 @@ export const ToastContent = styled.div`
 `;
 
 export const ToastText = styled.p`
-  color: ${({ theme }) => theme.colors.textPrimary};
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
+  color: ${({ theme }) => theme.color.text.primary};
+  font-size: ${({ theme }) => theme.fontSize.subText};
   line-height: 1.5;
   margin: 0;
 `;
@@ -87,14 +87,14 @@ export const ToastText = styled.p`
 export const ToastClose = styled.button`
   background: none;
   border: none;
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.color.text.disabled};
   cursor: pointer;
   padding: 0.15rem;
   font-size: 1rem;
   line-height: 1;
-  transition: color ${({ theme }) => theme.transitions.fast};
+  transition: color 0.15s ease;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.textPrimary};
+    color: ${({ theme }) => theme.color.text.primary};
   }
 `;

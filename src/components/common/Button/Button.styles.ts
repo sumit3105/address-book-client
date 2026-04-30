@@ -36,13 +36,13 @@ const sizeStyles = {
 
 const variantStyles = {
   primary: css`
-    background: ${({ theme }) => theme.colors.accentPrimary};
+    background: ${({ theme }) => theme.color.primary};
     color: #fff;
-    border-color: ${({ theme }) => theme.colors.accentPrimary};
+    border-color: ${({ theme }) => theme.color.primary};
 
     &:hover:not(:disabled) {
-      background: ${({ theme }) => theme.colors.accentPrimaryHover};
-      border-color: ${({ theme }) => theme.colors.accentPrimaryHover};
+      background: ${({ theme }) => theme.color.button.primary.hover};
+      border-color: ${({ theme }) => theme.color.button.primary.hover};
     }
 
     &:active:not(:disabled) {
@@ -50,43 +50,43 @@ const variantStyles = {
     }
   `,
   secondary: css`
-    background: ${({ theme }) => theme.colors.bgElevated};
-    color: ${({ theme }) => theme.colors.textPrimary};
-    border-color: ${({ theme }) => theme.colors.borderColor};
+    background: ${({ theme }) => theme.color.bg.menu.hover};
+    color: ${({ theme }) => theme.color.text.primary};
+    border-color: ${({ theme }) => theme.color.border.primary};
 
     &:hover:not(:disabled) {
-      background: ${({ theme }) => theme.colors.bgCardHover};
-      border-color: ${({ theme }) => theme.colors.borderColorHover};
+      background: ${({ theme }) => theme.color.bg.menu.hover};
+      border-color: ${({ theme }) => theme.color.border.active};
     }
   `,
   danger: css`
-    background: ${({ theme }) => theme.colors.danger};
+    background: ${({ theme }) => theme.color.button.reject.shade};
     color: #fff;
-    border-color: ${({ theme }) => theme.colors.danger};
+    border-color: ${({ theme }) => theme.color.button.reject.shade};
 
     &:hover:not(:disabled) {
-      background: ${({ theme }) => theme.colors.dangerHover};
-      border-color: ${({ theme }) => theme.colors.dangerHover};
+      background: ${({ theme }) => theme.color.button.reject.hover};
+      border-color: ${({ theme }) => theme.color.button.reject.hover};
     }
   `,
   ghost: css`
     background: transparent;
-    color: ${({ theme }) => theme.colors.textSecondary};
+    color: ${({ theme }) => theme.color.text.regular};
     border-color: transparent;
 
     &:hover:not(:disabled) {
-      background: ${({ theme }) => theme.colors.bgCard};
-      color: ${({ theme }) => theme.colors.textPrimary};
-      border-color: ${({ theme }) => theme.colors.borderColor};
+      background: ${({ theme }) => theme.color.card.basic.bg.regular};
+      color: ${({ theme }) => theme.color.text.primary};
+      border-color: ${({ theme }) => theme.color.border.primary};
     }
   `,
   outline: css`
     background: transparent;
-    color: ${({ theme }) => theme.colors.accentPrimary};
-    border-color: ${({ theme }) => theme.colors.accentPrimary};
+    color: ${({ theme }) => theme.color.primary};
+    border-color: ${({ theme }) => theme.color.primary};
 
     &:hover:not(:disabled) {
-      background: ${({ theme }) => theme.colors.accentSubtle};
+      background: rgba(50, 114, 255, 0.08);
     }
   `,
 };
@@ -96,12 +96,12 @@ export const StyledButton = styled.button<ButtonProps>`
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  border-radius: ${({ theme }) => theme.radii.md};
-  border: 1px solid transparent;
-  font-family: ${({ theme }) => theme.fonts.family};
-  font-weight: ${({ theme }) => theme.fonts.weightMedium};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  border: ${({ theme }) => theme.borderSize.regular} solid transparent;
+  font-family: ${({ theme }) => theme.fontFamily};
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
   cursor: pointer;
-  transition: all ${({ theme }) => theme.transitions.base};
+  transition: all 0.2s ease;
   white-space: nowrap;
   position: relative;
   letter-spacing: 0.01em;

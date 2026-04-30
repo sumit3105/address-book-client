@@ -12,53 +12,53 @@ export const InputWrapper = styled.div`
 `;
 
 export const Label = styled.label`
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
-  font-weight: ${({ theme }) => theme.fonts.weightMedium};
-  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: ${({ theme }) => theme.fontSize.subText};
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
+  color: ${({ theme }) => theme.color.text.regular};
 `;
 
 export const StyledInput = styled.input<InputWrapperProps>`
   width: 100%;
   padding: 0.6rem 0.875rem;
-  background: ${({ theme }) => theme.colors.bgInput};
-  border: 1px solid ${({ theme }) => theme.colors.borderColor};
-  border-radius: ${({ theme }) => theme.radii.md};
-  color: ${({ theme }) => theme.colors.textPrimary};
-  font-family: ${({ theme }) => theme.fonts.family};
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
-  transition: border-color ${({ theme }) => theme.transitions.fast},
-              box-shadow ${({ theme }) => theme.transitions.fast};
+  background: ${({ theme }) => theme.color.form.bg};
+  border: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.form.border};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  color: ${({ theme }) => theme.color.text.primary};
+  font-family: ${({ theme }) => theme.fontFamily};
+  font-size: ${({ theme }) => theme.fontSize.subText};
+  transition: border-color 0.15s ease,
+              box-shadow 0.15s ease;
   outline: none;
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.textMuted};
+    color: ${({ theme }) => theme.color.text.disabled};
   }
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.borderColorHover};
+    border-color: ${({ theme }) => theme.color.form.hover};
   }
 
   &:focus {
-    border-color: ${({ theme }) => theme.colors.borderColorFocus};
-    box-shadow: ${({ theme }) => theme.shadows.focus};
+    border-color: ${({ theme }) => theme.color.form.indicator.primary};
+    box-shadow: ${({ theme }) => theme.color.form.shadow};
   }
 
   ${({ $hasError }) =>
     $hasError &&
     css`
-      border-color: ${({ theme }) => theme.colors.danger};
-      box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.dangerSubtle};
+      border-color: ${({ theme }) => theme.color.form.error};
+      box-shadow: 0 0 0 3px rgba(224, 82, 82, 0.1);
 
       &:focus {
-        border-color: ${({ theme }) => theme.colors.danger};
-        box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.dangerSubtle};
+        border-color: ${({ theme }) => theme.color.form.error};
+        box-shadow: 0 0 0 3px rgba(224, 82, 82, 0.1);
       }
     `}
 `;
 
 export const ErrorMessage = styled.span`
-  font-size: ${({ theme }) => theme.fonts.sizeXs};
-  color: ${({ theme }) => theme.colors.danger};
+  font-size: ${({ theme }) => theme.fontSize.tiny};
+  color: ${({ theme }) => theme.color.form.error};
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -67,13 +67,13 @@ export const ErrorMessage = styled.span`
 export const StyledSelect = styled.select<InputWrapperProps>`
   width: 100%;
   padding: 0.6rem 2.25rem 0.6rem 0.875rem;
-  background: ${({ theme }) => theme.colors.bgInput};
-  border: 1px solid ${({ theme }) => theme.colors.borderColor};
-  border-radius: ${({ theme }) => theme.radii.md};
-  color: ${({ theme }) => theme.colors.textPrimary};
-  font-family: ${({ theme }) => theme.fonts.family};
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
-  transition: border-color ${({ theme }) => theme.transitions.fast};
+  background: ${({ theme }) => theme.color.form.bg};
+  border: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.form.border};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  color: ${({ theme }) => theme.color.text.primary};
+  font-family: ${({ theme }) => theme.fontFamily};
+  font-size: ${({ theme }) => theme.fontSize.subText};
+  transition: border-color 0.15s ease;
   outline: none;
   cursor: pointer;
   appearance: none;
@@ -82,22 +82,22 @@ export const StyledSelect = styled.select<InputWrapperProps>`
   background-position: right 0.875rem center;
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.borderColorHover};
+    border-color: ${({ theme }) => theme.color.form.hover};
   }
 
   &:focus {
-    border-color: ${({ theme }) => theme.colors.borderColorFocus};
-    box-shadow: ${({ theme }) => theme.shadows.focus};
+    border-color: ${({ theme }) => theme.color.form.indicator.primary};
+    box-shadow: ${({ theme }) => theme.color.form.shadow};
   }
 
   option {
-    background: ${({ theme }) => theme.colors.bgSecondary};
-    color: ${({ theme }) => theme.colors.textPrimary};
+    background: ${({ theme }) => theme.color.bg.secondary};
+    color: ${({ theme }) => theme.color.text.primary};
   }
 
   ${({ $hasError }) =>
     $hasError &&
     css`
-      border-color: ${({ theme }) => theme.colors.danger};
+      border-color: ${({ theme }) => theme.color.form.error};
     `}
 `;

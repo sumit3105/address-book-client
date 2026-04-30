@@ -32,15 +32,15 @@ export const LoaderOverlay = styled.div`
 export const SpinnerRing = styled.div`
   width: 40px;
   height: 40px;
-  border: 3px solid ${({ theme }) => theme.colors.borderColor};
-  border-top-color: ${({ theme }) => theme.colors.accentPrimary};
+  border: 3px solid ${({ theme }) => theme.color.border.primary};
+  border-top-color: ${({ theme }) => theme.color.primary};
   border-radius: 50%;
   animation: ${spin} 0.8s linear infinite;
 `;
 
 export const LoaderText = styled.p`
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
+  color: ${({ theme }) => theme.color.text.disabled};
+  font-size: ${({ theme }) => theme.fontSize.subText};
 `;
 
 // ========================
@@ -52,12 +52,12 @@ export const SkeletonLine = styled.div<{ $width?: string; $height?: string }>`
   height: ${({ $height }) => $height || '1rem'};
   background: linear-gradient(
     90deg,
-    ${({ theme }) => theme.colors.bgCard} 25%,
-    ${({ theme }) => theme.colors.bgCardHover} 50%,
-    ${({ theme }) => theme.colors.bgCard} 75%
+    ${({ theme }) => theme.color.card.basic.bg.regular} 25%,
+    ${({ theme }) => theme.color.bg.menu.hover} 50%,
+    ${({ theme }) => theme.color.card.basic.bg.regular} 75%
   );
   background-size: 200% 100%;
-  border-radius: ${({ theme }) => theme.radii.sm};
+  border-radius: ${({ theme }) => theme.borderRadius.small};
   animation: ${shimmer} 1.5s ease-in-out infinite;
 `;
 
@@ -66,7 +66,7 @@ export const SkeletonRow = styled.div`
   gap: 1rem;
   align-items: center;
   padding: 1rem 0;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
+  border-bottom: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.border.primary};
 `;
 
 // ========================
@@ -83,7 +83,7 @@ export const Dot = styled.div<{ $delay: number }>`
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: ${({ theme }) => theme.colors.accentPrimary};
+  background: ${({ theme }) => theme.color.primary};
   animation: ${pulse} 1.2s ease-in-out infinite;
   animation-delay: ${({ $delay }) => $delay}s;
 `;

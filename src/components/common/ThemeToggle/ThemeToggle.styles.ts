@@ -8,26 +8,26 @@ export const ThemeSelectWrapper = styled.div`
 
 export const StyledSelect = styled.select`
   appearance: none;
-  background: ${({ theme }) => theme.colors.bgCard};
-  color: ${({ theme }) => theme.colors.textPrimary};
-  border: 1px solid ${({ theme }) => theme.colors.borderColor};
-  border-radius: ${({ theme }) => theme.radii.md};
+  background: ${({ theme }) => theme.color.card.basic.bg.regular};
+  color: ${({ theme }) => theme.color.text.primary};
+  border: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.border.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
   padding: 0.35rem 1.75rem 0.35rem 0.75rem;
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
+  font-size: ${({ theme }) => theme.fontSize.subText};
   font-family: inherit;
-  font-weight: ${({ theme }) => theme.fonts.weightMedium};
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
   cursor: pointer;
-  transition: all ${({ theme }) => theme.transitions.fast};
+  transition: all 0.15s ease;
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.borderColorHover};
-    background: ${({ theme }) => theme.colors.bgCardHover};
+    border-color: ${({ theme }) => theme.color.border.active};
+    background: ${({ theme }) => theme.color.bg.menu.hover};
   }
 
   &:focus {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.accentPrimary};
-    box-shadow: ${({ theme }) => theme.shadows.focus};
+    border-color: ${({ theme }) => theme.color.primary};
+    box-shadow: ${({ theme }) => theme.color.shadow.regular};
   }
 `;
 
@@ -38,7 +38,7 @@ export const SelectIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.color.text.regular};
 
   svg {
     width: 14px;

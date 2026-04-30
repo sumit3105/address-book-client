@@ -27,15 +27,15 @@ interface ModalContainerProps {
 }
 
 export const ModalContainer = styled.div<ModalContainerProps>`
-  background: ${({ theme }) => theme.colors.bgCard};
-  border: 1px solid ${({ theme }) => theme.colors.borderColor};
-  border-radius: ${({ theme }) => theme.radii.xl};
+  background: ${({ theme }) => theme.color.card.basic.bg.regular};
+  border: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.border.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
   padding: 1.75rem;
   width: 100%;
   max-width: ${({ $maxWidth }) => $maxWidth || '520px'};
   max-height: 88vh;
   overflow-y: auto;
-  box-shadow: ${({ theme }) => theme.shadows.lg};
+  box-shadow: ${({ theme }) => theme.color.shadow.regular};
   animation: ${scaleIn} 0.2s ease;
   position: relative;
 
@@ -52,25 +52,25 @@ export const ModalHeader = styled.div`
   justify-content: space-between;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
+  border-bottom: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.border.primary};
 `;
 
 export const ModalTitle = styled.h2`
-  font-size: ${({ theme }) => theme.fonts.sizeLg};
-  font-weight: ${({ theme }) => theme.fonts.weightSemibold};
-  color: ${({ theme }) => theme.colors.textPrimary};
+  font-size: ${({ theme }) => theme.fontSize.title};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  color: ${({ theme }) => theme.color.text.primary};
   margin: 0;
 `;
 
 export const CloseButton = styled.button`
   background: none;
-  border: 1px solid transparent;
-  color: ${({ theme }) => theme.colors.textMuted};
+  border: ${({ theme }) => theme.borderSize.regular} solid transparent;
+  color: ${({ theme }) => theme.color.text.disabled};
   font-size: 1.25rem;
   cursor: pointer;
   padding: 0;
-  border-radius: ${({ theme }) => theme.radii.sm};
-  transition: all ${({ theme }) => theme.transitions.fast};
+  border-radius: ${({ theme }) => theme.borderRadius.small};
+  transition: all 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,14 +78,14 @@ export const CloseButton = styled.button`
   height: 28px;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.textPrimary};
-    background: ${({ theme }) => theme.colors.bgElevated};
-    border-color: ${({ theme }) => theme.colors.borderColor};
+    color: ${({ theme }) => theme.color.text.primary};
+    background: ${({ theme }) => theme.color.bg.menu.hover};
+    border-color: ${({ theme }) => theme.color.border.active};
   }
 `;
 
 export const ModalBody = styled.div`
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.color.text.regular};
   line-height: 1.6;
 `;
 
@@ -95,5 +95,5 @@ export const ModalFooter = styled.div`
   gap: 0.5rem;
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid ${({ theme }) => theme.colors.borderColor};
+  border-top: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.border.primary};
 `;

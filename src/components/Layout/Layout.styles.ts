@@ -12,8 +12,8 @@ export const Navbar = styled.nav`
   justify-content: space-between;
   padding: 0 1.75rem;
   height: 56px;
-  background: ${({ theme }) => theme.colors.bgSecondary};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
+  background: ${({ theme }) => theme.color.bg.secondary};
+  border-bottom: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.border.primary};
   position: sticky;
   top: 0;
   z-index: 100;
@@ -32,8 +32,8 @@ export const LogoIcon = styled.span`
   justify-content: center;
   width: 28px;
   height: 28px;
-  background: ${({ theme }) => theme.colors.accentPrimary};
-  border-radius: ${({ theme }) => theme.radii.md};
+  background: ${({ theme }) => theme.color.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
   font-size: 0.75rem;
   font-weight: 700;
   color: white;
@@ -41,9 +41,9 @@ export const LogoIcon = styled.span`
 `;
 
 export const LogoText = styled.span`
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
-  font-weight: ${({ theme }) => theme.fonts.weightSemibold};
-  color: ${({ theme }) => theme.colors.textPrimary};
+  font-size: ${({ theme }) => theme.fontSize.subText};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  color: ${({ theme }) => theme.color.text.primary};
   letter-spacing: -0.01em;
 `;
 
@@ -58,25 +58,25 @@ export const UserBadge = styled.div`
   align-items: center;
   gap: 0.5rem;
   padding: 0.3rem 0.75rem;
-  background: ${({ theme }) => theme.colors.bgCard};
-  border: 1px solid ${({ theme }) => theme.colors.borderColor};
-  border-radius: ${({ theme }) => theme.radii.full};
-  font-size: ${({ theme }) => theme.fonts.sizeSm};
-  color: ${({ theme }) => theme.colors.textSecondary};
+  background: ${({ theme }) => theme.color.card.basic.bg.regular};
+  border: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.border.primary};
+  border-radius: 99px;
+  font-size: ${({ theme }) => theme.fontSize.subText};
+  color: ${({ theme }) => theme.color.text.regular};
 `;
 
 export const UserAvatar = styled.div`
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: ${({ theme }) => theme.colors.bgElevated};
-  border: 1px solid ${({ theme }) => theme.colors.borderColor};
+  background: ${({ theme }) => theme.color.bg.menu.hover};
+  border: ${({ theme }) => theme.borderSize.regular} solid ${({ theme }) => theme.color.border.primary};
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.65rem;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.color.text.regular};
 `;
 
 export const MainContent = styled.main`
